@@ -4,14 +4,15 @@
   <meta charset=utf-8 />
   <title>  Calendar X </title>
   <link rel="stylesheet" href="/stylesheets/styles.css" />
-  <link rel="stylesheet" href="/stylesheets/ui-darkness/jquery-ui-1.8.20.custom.css" />
   <script type="text/javascript" src="/javascript/jquery-1.7.2.min.js"></script>
   <script type="text/javascript" src="/javascript/jquery-ui-1.8.20.custom.min.js"></script>
   <script>
     $(function() {
       $( "#datepicker" ).datepicker({
         showOtherMonths: true,
-        selectOtherMonths: true
+        firstDat: 1,
+        selectOtherMonths: true,
+        dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
       });
     });
   </script>
@@ -20,13 +21,53 @@
   <div id="main"> 
     <header>
       <h1> Calendar X </h1>
-    <header>
+    </header>
 
     <div id="datepicker"></div>
 
     <div id="hidden-content">
       <section class="content">
 </section>
+
+<ul class="entries">
+  
+ 
+  <li>
+    <a href="/2010/10/01/wing2.html">
+      <img src="/img/wing.jpg" />
+      <h3>Wing and a Prayer</h3>
+      <h3><p>NOPEPEPPE wing of the AirBus I rode to England.</p></h3>
+      <div class="postDate">2010-10-01 00:00:00 +0100</div>
+      <h3>/2010/10/01/wing2</h3>
+    </a>
+  </li>
+ 
+  
+ 
+  <li>
+    <a href="/2010/10/01/wing.html">
+      <img src="/img/wing.jpg" />
+      <h3>Wing and a Prayer</h3>
+      <h3><p>The wing of the AirBus I rode to England.</p></h3>
+      <div class="postDate">2010-10-01 00:00:00 +0100</div>
+      <h3>/2010/10/01/wing</h3>
+    </a>
+  </li>
+ 
+  
+ 
+  <li>
+    <a href="/2010/03/04/bikes.html">
+      <img src="" />
+      <h3>Bikes, Black and White</h3>
+      <h3><p>Bikes are used by almost everyone in downtown Amsterdam. These ones are chained to a bike rack.</p></h3>
+      <div class="postDate">2010-03-04 00:00:00 +0000</div>
+      <h3>/2010/03/04/bikes</h3>
+    </a>
+  </li>
+ 
+  
+</ul>
     </div>
 
     <footer>
