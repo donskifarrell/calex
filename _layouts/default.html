@@ -3,19 +3,24 @@
 <head>
   <meta charset=utf-8 />
   <title> {% if page.title %} {{ page.title }} | {% endif %} Calendar X </title>
-  <link rel="stylesheet" href="/stylesheets/styles.css" />
-  <script type="text/javascript" src="/javascript/jquery-1.7.2.min.js"></script>
-  <script type="text/javascript" src="/javascript/jquery-ui-1.8.20.custom.min.js"></script>
-  <script>
-    $(function() {
-      $( "#datepicker" ).datepicker({
-        showOtherMonths: true,
-        firstDat: 1,
-        selectOtherMonths: true,
-        dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-      });
-    });
-  </script>
+  <!-- Need to remove date.format dependency -->
+  <script type='text/javascript' src='/lib/date.format.js'></script>
+
+  <!-- JQuery dependency -->
+  <script type='text/javascript' src='/lib/jquery/jquery-1.7.2.min.js'></script>
+
+  <!-- Facebox - provides overlay / same style as GitHub popups -->
+  <link rel='stylesheet' type='text/css' href='/lib/facebox/facebox.css' />
+  <script type='text/javascript' src='/lib/facebox/facebox.js'></script>
+
+  <!-- Full calendar - draws and fills calendar -->
+  <link rel='stylesheet' type='text/css' href='/lib/fullcalendar/fullcalendar.css' />
+  <script type='text/javascript' src='/lib/fullcalendar/fullcalendar.js'></script>
+
+  <!-- Custom javascript and styles -->
+  <link rel='stylesheet' type='text/css' href='/src/style/calex.css' />
+  <script type='text/javascript' src='/src/javascript/multimap.js'></script>
+  <script type='text/javascript' src='/src/javascript/calex.js'></script>
 </head>
 <body>
   <div id="main"> 
@@ -23,10 +28,10 @@
       <h1> Calendar X </h1>
     </header>
 
-    <div id="datepicker"></div>
+    <div id="calendar"></div>
 
-    <div id="hidden-content">
-      {{ content }}
+    <div class="simple_overlay" id="overlay">
+      <div class="contentWrap">ghdfhdfg</div>
     </div>
 
     <footer>
