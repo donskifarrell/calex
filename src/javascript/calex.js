@@ -1,15 +1,4 @@
 $(document).ready(function() {
-    var dayPosts = new MultiMap;
-
-    {% for post in site.posts %}
-      dayPosts.put( 
-        '{{ post.date | date: "%Y-%m-%d" }}', 
-        {
-          title: '{{ post.title }}',
-          url: '{{ post.url }}'
-        });
-    {% endfor %}
-
     $('#calendar').fullCalendar({
       header: {
         left: 'prev,next today',
@@ -19,20 +8,66 @@ $(document).ready(function() {
       editable: true,
       dayRender: function(cell, date) {
         var day = date.format("yyyy-mm-dd");
-        var posts = dayPosts[day];
-        if (posts !== undefined){
+        var entries = dayEntries[day];
+        if (entries !== undefined){
           cell.addClass('fc-xdate');
-          cell.attr('rel', '#overlay')
             //.append('<img src="../images/x.png">');
           cell.click(function() {
-            showDayPosts(posts);
+            showDayEntries(entries);
           });
         }
       }
     });
 
-    function showDayPosts(posts){
-      $("#overlay").overlay({         
+    function showDayEntries(entries){
+      var result = getContentOfEntries(entries);
+      $.when.apply($, result.calls).then(
+          function(){      
+            $.facebox(function(){
+              $.facebox(result.content);
+            }); 
+          }
+        );
+    }
+
+    function getContentOfEntries(entries){
+      var content = '';
+      var entry_calls = [];
+      $.each(entries,
+            function(){
+              var title = this['title'];
+              call = $.ajax({url:this['url']});
+              call.done(function(data){
+                content += '<div class="post">'
+                          + '<h3>' + title + '<h3>'
+                          + '<div class="post-content">' + data + '</div>'
+                        + '</div>';
+              })
+              entry_calls.push(call);              
+            });
+      return {
+        calls: entry_calls,
+        content: content
+      };
+    }
+
+});
+
+
+/*
+      $.each(entries,
+            function(){
+              var title = this['title'];
+              $.get(this['url'], function(data) {
+                content += '<div class="post">'
+                            + '<h3>' + title + '<h3>'
+                            + '<div class="post-content">' + data + '</div>'
+                          + '</div>';
+              })
+            });
+
+
+{         
                 mask: 'darkred',
                 effect: 'apple',         
                 onBeforeLoad: function() {  
@@ -49,6 +84,6 @@ $(document).ready(function() {
                     // load the page specified in the trigger
                     wrap.load(url);
                 }   
-            }).load();      
-    }
-});
+            }
+
+            */

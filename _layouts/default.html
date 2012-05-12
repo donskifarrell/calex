@@ -20,6 +20,18 @@
   <!-- Custom javascript and styles -->
   <link rel='stylesheet' type='text/css' href='/src/style/calex.css' />
   <script type='text/javascript' src='/src/javascript/multimap.js'></script>
+  <script>
+    // Need to put this here so the Jekyll engine will pick up the Liquid template tags.
+    var dayEntries = new MultiMap;
+    {% for post in site.posts %}
+    dayEntries.put( 
+      '{{ post.date | date: "%Y-%m-%d" }}', 
+      {
+        title: '{{ post.title }}',
+        url: '{{ post.url }}'
+      });
+    {% endfor %}
+  </script>
   <script type='text/javascript' src='/src/javascript/calex.js'></script>
 </head>
 <body>
@@ -27,13 +39,10 @@
     <header>
       <h1> Calendar X </h1>
     </header>
-
     <div id="calendar"></div>
-
     <div class="simple_overlay" id="overlay">
       <div class="contentWrap">ghdfhdfg</div>
     </div>
-
     <footer>
       <p>Github link here?</p>
     </footer>
