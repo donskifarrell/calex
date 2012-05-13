@@ -12,8 +12,8 @@ $(document).ready(function() {
       var day = date.format("yyyy-mm-dd");
       var entries = dayEntries[day];
       if (entries !== undefined){
-        cell.addClass('fc-xdate');
-          //.append('<img src="../images/x.png">');
+        cell.addClass('fc-xdate')
+            .append('<img src="../images/x.png">');
         cell.click(function() {
           showDayEntries(entries);
         });
