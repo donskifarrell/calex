@@ -1,13 +1,23 @@
+---
+defaultUsername : donskifarrell
+repository: donskifarrell/calex
+commitPath: _posts/
+commitMessage: Added a new X entry!
+---
+
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset=utf-8 />
-  <title> {% if page.title %} {{ page.title }} | {% endif %} Calendar X </title>
+  <title>CalendarX</title>
   <!-- Need to remove date.format dependency -->
   <script type='text/javascript' src='/lib/date.format.js'></script>
 
   <!-- JQuery dependency -->
   <script type='text/javascript' src='/lib/jquery/jquery-1.7.2.min.js'></script>
+
+  <!-- GitHub Web Commit dependency -->
+  <script type='text/javascript' src='/lib/github-webcommit/github-webcommit.js'></script>
 
   <!-- Facebox - provides overlay / same style as GitHub popups -->
   <link rel='stylesheet' type='text/css' href='/lib/facebox/facebox.css' />
@@ -22,6 +32,7 @@
   <script type='text/javascript' src='/src/javascript/multimap.js'></script>
   <script>
     // Need to put this here so the Jekyll engine will pick up the Liquid template tags.
+    // I think yaml front matter at the start of the .js file will work but I don't like that.
     var dayEntries = new MultiMap;
     {% for post in site.posts %}
     dayEntries.put( 
@@ -40,8 +51,21 @@
       <h1> Calendar X </h1>
     </header>
     <div id="calendar"></div>
-    <div class="simple_overlay" id="overlay">
-      <div class="contentWrap">ghdfhdfg</div>
+    <div id="newEntry">
+		<form>
+      <input type="hidden" id="_repository" value="{{ page.repository }}">          
+      <input type="hidden" id="_commitPath" value="{{ page.commitPath }}">          
+			<input type="hidden" id="_commitMessage" value="{{ page.commitMessage }}">          
+			<input id="username" name="username" value="{{ page.defaultUsername }}" >
+      <input id="password" name="password" type="password" placeholder="Password...">
+			<input id="entryTitle" placeholder="Enter the title..." >
+			<br />
+			<div id="entryEditor">
+				<textarea id="entryMarkdown" placeholder="Write your post..."></textarea>
+				<div id="entryPreview"></div>
+			</div>
+			<div id="commitButton">Add new entry</div>
+		</form>
     </div>
     <footer>
       <p>Github link here?</p>
