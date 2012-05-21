@@ -1,5 +1,16 @@
 Mark an X on the calendar for every day you accomplish a task. Uses GitHub pages
 
+## Getting Started
+
+1. Branch master into gh-pages branch
+
+```
+git checkout -b gh-pages
+git commit -am "New GitHub pages branch."
+git push origin gh-pages
+```
+
+
 ## TODO
 
 * Sort out styling on calendar
