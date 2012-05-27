@@ -32,14 +32,16 @@ commitMessage: Added a new X entry!
   <script type='text/javascript' src='src/javascript/multimap.js'></script>
   <script>
     // Need to put this here so the Jekyll engine will pick up the Liquid template tags.
-    // I think yaml front matter at the start of the .js file will work but I don't like that.
+    // I think yaml front matter at the start of the .js file will work but I don't like that style.
+    // Need to remove the leading '/' from the url as it messes with the relative path in gh-pages.
     var dayEntries = new MultiMap;
     {% for post in site.posts %}
+    var postUrl = '{{ post.url }}'.slice(1);
     dayEntries.put( 
       '{{ post.date | date: "%Y-%m-%d" }}', 
       {
         title: '{{ post.title }}',
-        url: '{{ post.url }}'
+        url: postUrl
       });
     {% endfor %}
   </script>
