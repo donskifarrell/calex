@@ -38,6 +38,16 @@ $(document).ready(function() {
     }
   });
 
+  $.facebox.settings.closeImage = 'lib/facebox/closelabel.png';
+  $.facebox.settings.loadingImage = 'lib/facebox/loading.gif';
+
+  $commitBtn.click(function(e){
+    e.preventDefault();
+    entry = builder.buildEntry($entryTitle.val(), $entryMarkdown.val());
+    gh.setCredentials($usernameField.val(), $passwordField.val());
+    gh.commit(entry);
+  });
+
   function showDayEntries(entries){      
     $main.ajaxStop(function(){
       $.facebox(dayContent);
@@ -63,15 +73,12 @@ $(document).ready(function() {
 
     $.when.apply($, entry_calls);
   }
-
-  $commitBtn.click(function(e){
-    e.preventDefault();
-    entry = builder.buildEntry($entryTitle.val(), $entryMarkdown.val());
-    gh.setCredentials($usernameField.val(), $passwordField.val());
-    gh.commit(entry);
-  });
 });
 
+function buildDate(date){
+  return date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay();
+}
+  
 var EntryBuilder = function() {
   var date = new Date();
   YAML_FRONT_MATTER = '---\n' +
@@ -89,8 +96,4 @@ var EntryBuilder = function() {
 
       return entry;
   }
-}
-
-function buildDate(date){
-  return date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay();
 }
