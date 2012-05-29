@@ -13,8 +13,9 @@ commitMessage: Added a new X entry!
   <!-- Need to remove date.format dependency -->
   <script type='text/javascript' src='lib/date.format.js'></script>
 
-  <!-- JQuery dependency -->
+  <!-- JQuery dependency. JQuery UI for slide effect. -->
   <script type='text/javascript' src='lib/jquery/jquery-1.7.2.min.js'></script>
+  <script type='text/javascript' src='lib/jquery/jquery-ui-1.8.20.custom.min.js'></script>
 
   <!-- GitHub Web Commit dependency -->
   <script type='text/javascript' src='lib/github-webcommit/github-webcommit.js'></script>
@@ -44,6 +45,12 @@ commitMessage: Added a new X entry!
         url: postUrl
       });
     {% endfor %}
+
+    // don't like this :(
+    var defaultUsername = "{{ page.defaultUsername }}";
+    var repository = "{{ page.repository }}";
+    var commitPath = "{{ page.commitPath }}";
+    var commitMessage = "{{ page.commitMessage }}";
   </script>
   <script type='text/javascript' src='src/javascript/calex.js'></script>
 </head>
@@ -52,23 +59,8 @@ commitMessage: Added a new X entry!
     <header>
       <h1> Calendar X </h1>
     </header>
+    <a id="addEntry" href="#newEntry" rel="facebox">View the 'info' div in the Facebox</a>
     <div id="calendar"></div>
-    <div id="newEntry">
-		<form>
-      <input type="hidden" id="_repository" value="{{ page.repository }}">          
-      <input type="hidden" id="_commitPath" value="{{ page.commitPath }}">          
-			<input type="hidden" id="_commitMessage" value="{{ page.commitMessage }}">          
-			<input id="username" name="username" value="{{ page.defaultUsername }}" >
-      <input id="password" name="password" type="password" placeholder="Password...">
-			<input id="entryTitle" placeholder="Enter the title..." >
-			<br />
-			<div id="entryEditor">
-				<textarea id="entryMarkdown" placeholder="Write your post..."></textarea>
-				<div id="entryPreview"></div>
-			</div>
-			<div id="commitButton">Add new entry</div>
-		</form>
-    </div>
     <footer>
       <p>Github link here?</p>
     </footer>

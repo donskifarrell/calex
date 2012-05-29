@@ -1,3 +1,19 @@
+#navlist li
+ {
+ display: inline;
+ list-style-type: none;
+ padding-right: 20px;
+ }
+
+ #navlist li div
+ {
+ 	float: left;
+ }
+
+#facebox .body {
+	width: 600px !important;
+}
+
 #calendar {
     width: 80%;
     margin: 0 auto;

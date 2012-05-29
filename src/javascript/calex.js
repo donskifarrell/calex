@@ -1,8 +1,8 @@
 $(document).ready(function() {
   gh = new Github({
-    repositoryRoot : $('#_repository').val(),
-    defaultCommitPath : $('#_commitPath').val(),
-    defaultCommitMessage : $('#_commitMessage').val() 
+    repositoryRoot : repository,
+    defaultCommitPath : commitPath,
+    defaultCommitMessage : commitMessage 
   });
   builder = new EntryBuilder();
 
@@ -12,8 +12,12 @@ $(document).ready(function() {
 
   var $entryMarkdown = $('#entryMarkdown');
   var $entryPreview = $('#entryPreview').hide();
+  var $previewButton = $('#previewButton');
+  var $preview = $('#preview');
   var $entryTitle = $('#entryTitle');
   var $commitBtn = $('#commitButton');
+  var $addEntry = $('#addEntry');
+  var $newEntry = "src/newEntry.html";
   var $usernameField = $('#username');
   var $passwordField = $('#password');
 
@@ -36,16 +40,6 @@ $(document).ready(function() {
         });
       }
     }
-  });
-
-  $.facebox.settings.closeImage = 'lib/facebox/closelabel.png';
-  $.facebox.settings.loadingImage = 'lib/facebox/loading.gif';
-
-  $commitBtn.click(function(e){
-    e.preventDefault();
-    entry = builder.buildEntry($entryTitle.val(), $entryMarkdown.val());
-    gh.setCredentials($usernameField.val(), $passwordField.val());
-    gh.commit(entry);
   });
 
   function showDayEntries(entries){      
@@ -73,6 +67,32 @@ $(document).ready(function() {
 
     $.when.apply($, entry_calls);
   }
+
+  $.facebox.settings.closeImage = 'lib/facebox/closelabel.png';
+  $.facebox.settings.loadingImage = 'lib/facebox/loading.gif';
+
+  $addEntry.click(function(e){
+    e.preventDefault();
+    $.facebox({ ajax : $newEntry });
+  });  
+
+  $previewButton.click(function(e){
+    e.preventDefault();
+    $preview.toggle("slide", {}, 500);
+  }).toggle( 
+    function(){
+      $previewButton.text("Show Preview");
+    },
+    function(){
+      $previewButton.text("Hide Preview");
+    });  
+
+  $commitBtn.click(function(e){
+    e.preventDefault();
+    entry = builder.buildEntry($entryTitle.val(), $entryMarkdown.val());
+    gh.setCredentials($usernameField.val(), $passwordField.val());
+    gh.commit(entry);
+  });
 });
 
 function buildDate(date){
