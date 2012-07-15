@@ -22,7 +22,9 @@ header h1, footer h1 {
 header h4, footer h4 {
     margin-top: 0;
 }
-
+.fc-xdate{
+    background-image: url(/images/arrows.png);
+}
 .fc-header-title{
 	text-align: left;
 }

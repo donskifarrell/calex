@@ -8,7 +8,6 @@ $(document).ready(function() {
 
   var converter = new Showdown.converter();
 
-  var dayContent = '';
   var $calendar = $('#calendar');
   var $main = $('#main');
 
@@ -40,51 +39,57 @@ $(document).ready(function() {
         cell.addClass('fc-xdate');
         cell.click(function() {
           if (cell.hasClass('fc-xdate')){
-            showDayEntries(entries);
+            renderEntries(entries);
           }
         });
+      } else {
+        cell.removeClass('fc-xdate');
       }
     }
   });
 
-  $('.fc-button-next').click(function() {
-    clearXDates();
-  });
-
-  $('.fc-button-prev').click(function() {
-    clearXDates();
-  });
-
-  function clearXDates(){
-    $("td").removeClass("fc-xdate");
-  }
-
-  function showDayEntries(entries){
-    $main.ajaxStop(function(){
-      $.facebox(dayContent);
-      $(".popup").addClass("markdown-body");
-    });
-    getContentOfEntries(entries);
-  }
-
-  function getContentOfEntries(entries){
-    dayContent = '';
-    var entry_calls = [];
-    $.each(entries,
-          function(){
-            var title = this['title'];
-            call = $.ajax({url:this['url']});
-            call.done(function(data){
-              dayContent += '<div class="post">'
-                            + '<h3>' + title + '<h3>'
+  function renderEntries(entries){
+    var dayContent = '';
+    $.each(
+      entries,
+      function(idx, entry){
+        var entryTitle = entry['title'];
+        var entryUrl = entry['url'];
+        requestHandler.addCall();
+        $.ajax({
+          url: entryUrl,
+          type: "GET",
+          error: function(xhr, statusText, errorThrown){
+            alert(statusText);
+            // Work out what the error was and display the appropriate message
+          },
+          success: function(data){
+            dayContent += '<div class="post">'
+                            + '<h3>' + entryTitle + '<h3>'
                             + '<div class="post-content">' + data + '</div>'
                           + '</div>';
-            });
-            entry_calls.push(call);
-          });
+            requestHandler.removeCall(dayContent);
+          }
+        });
 
-    $.when.apply($, entry_calls);
+      });
   }
+
+  var requestHandler = {
+        _requestsInProgress: 0,
+
+        addCall: function() {
+            this._requestsInProgress++;
+        },
+
+        removeCall: function(dayContent) {
+            this._requestsInProgress--;
+            if (this._requestsInProgress === 0) {
+              $.facebox(dayContent);
+              $(".popup").addClass("markdown-body");
+            }
+        }
+    };
 
   $.facebox.settings.closeImage = 'lib/facebox/closelabel.png';
   $.facebox.settings.loadingImage = 'lib/facebox/loading.gif';
