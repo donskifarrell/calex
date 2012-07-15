@@ -75,6 +75,10 @@ header h4, footer h4 {
 	margin-left: 40px;
 }
 
+#formArea p {
+	font-size: 1.1em;
+}
+
 #previewArea {
 	margin-left: 40px;
 	width: 47%;
@@ -83,4 +87,8 @@ header h4, footer h4 {
 #entryMarkdownPreview {
 	width: 700px;
 	height: 430px;
+}
+
+#commitButton {
+	margin-left: 10px;
 }

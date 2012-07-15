@@ -76,16 +76,17 @@ commitMessage: Added a new X entry!
       <div id="calendar" class="ui-tabs-panel"></div>
       <div id="newEntry" class="ui-tabs-panel">        
         <div id="formArea">
-          <p>Enter the title and content of the entry.</p>
-          <p>Note: The preview may differ from how it is actually rendered as GitHub use a different version of the markdown library.</p>
+          <p>Note: The preview may differ from the actual render as GitHub uses a custom version of the markdown library.</p>
           <form>
             <input id="entryTitle" placeholder="Enter the title..."/>      
             <br />
               <textarea id="entryMarkdown" placeholder="Write your post..."></textarea>
             <br />
-            <input id="username" name="username" value="{{ page.defaultUsername }}" />
-            <input id="password" name="password" type="password" placeholder="Password..." />
-            <div id="commitButton">Add new entry</div>
+            <br />
+            <p>Enter your username and password for GitHub in order to commit the new entry:</p>
+            Username: <input id="username" name="username" value="{{ page.defaultUsername }}" />
+            Password: <input id="password" name="password" type="password" placeholder="Password..." />
+            <input id="commitButton" type="button" value="Add Entry!" />  
           </form>
         </div>    
 

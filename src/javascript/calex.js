@@ -20,7 +20,6 @@ $(document).ready(function() {
   var $preview = $('#preview');
   var $entryTitle = $('#entryTitle');
   var $commitBtn = $('#commitButton');
-  var $addEntry = $('#addEntry');
   var $newEntry = "src/newEntry.html";
   var $usernameField = $('#username');
   var $passwordField = $('#password');
@@ -80,7 +79,7 @@ $(document).ready(function() {
                             + '<h3>' + title + '<h3>'
                             + '<div class="post-content">' + data + '</div>'
                           + '</div>';
-            })
+            });
             entry_calls.push(call);
           });
 
@@ -90,24 +89,7 @@ $(document).ready(function() {
   $.facebox.settings.closeImage = 'lib/facebox/closelabel.png';
   $.facebox.settings.loadingImage = 'lib/facebox/loading.gif';
 
-  $addEntry.click(function(e){
-    e.preventDefault();
-    $.facebox({ ajax : $newEntry });
-  });
-
-  $previewButton.click(function(e){
-    e.preventDefault();
-    $preview.toggle("slide", {}, 500);
-  }).toggle(
-    function(){
-      $previewButton.text("Show Preview");
-    },
-    function(){
-      $previewButton.text("Hide Preview");
-    });
-
-  $commitBtn.click(function(e){
-    e.preventDefault();
+  $commitBtn.on('click', function(){
     entry = builder.buildEntry($entryTitle.val(), $entryMarkdown.val());
     gh.setCredentials($usernameField.val(), $passwordField.val());
     gh.commit(entry);
@@ -121,11 +103,13 @@ $(document).ready(function() {
 
   $($about).load('src/about.html');
 
-  $($entryMarkdown).on('keyup', function(){
-    var previewHtml = converter.makeHtml($entryMarkdown.val());
-    $($preview).html('').html(previewHtml);
-  });
+  $($entryTitle).on('keyup', function() { createPreview(); });
+  $($entryMarkdown).on('keyup', function() { createPreview(); });
 
+  function createPreview(){
+    var previewHtml = converter.makeHtml('#' + $entryTitle.val() + '\n' + $entryMarkdown.val());
+    $($preview).html('').html(previewHtml);
+  }
 });
 
 function buildDate(date){
@@ -148,5 +132,5 @@ var EntryBuilder = function() {
       };
 
       return entry;
-  }
-}
+  };
+};
