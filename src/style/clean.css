@@ -1,0 +1,48 @@
+
+@font-face {
+    font-family: quicksand;
+    src: url('../../fonts/Quicksand_Light_Oblique-webfont.woff');
+}
+
+body { 
+
+}
+
+tbody {	
+	text-align: center;
+}
+
+header, footer { 	
+    font-family: quicksand;
+	margin: 0 auto 0 auto; 	 	
+    font-size: 20px;
+	text-align: center;
+}
+
+header h1, footer h1 { 	
+    font-size: 58px;
+    margin-bottom: 0px;
+}
+header h4, footer h4 { 	
+    margin-top: 0px;
+}
+
+.fc-header-title{
+	text-align: left;
+}
+
+#tabs {
+	padding: 0px;
+	width: 98%;
+	margin-left: auto;   margin-right: auto;
+}
+#tabs .ui-tabs-nav {
+	background: transparent;
+	border-width: 0px 0px 1px 0px;
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+}
+#tabs .ui-tabs-panel {
+	margin: 0em 0.2em 0.2em 0.2em;
+}

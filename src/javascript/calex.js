@@ -2,7 +2,7 @@ $(document).ready(function() {
   gh = new Github({
     repositoryRoot : repository,
     defaultCommitPath : commitPath,
-    defaultCommitMessage : commitMessage 
+    defaultCommitMessage : commitMessage
   });
   builder = new EntryBuilder();
 
@@ -10,6 +10,8 @@ $(document).ready(function() {
   var $calendar = $('#calendar');
   var $main = $('#main');
 
+  var $tabs = $('#tabs');
+  var $about = $('#about');
   var $entryMarkdown = $('#entryMarkdown');
   var $entryPreview = $('#entryPreview').hide();
   var $previewButton = $('#previewButton');
@@ -36,15 +38,30 @@ $(document).ready(function() {
       if (entries !== undefined){
         cell.addClass('fc-xdate');
         cell.click(function() {
-          showDayEntries(entries);
+          if (cell.hasClass('fc-xdate')){
+            showDayEntries(entries);
+          }
         });
       }
     }
   });
 
-  function showDayEntries(entries){      
+  $('.fc-button-next').click(function() {
+    clearXDates();
+  });
+
+  $('.fc-button-prev').click(function() {
+    clearXDates();
+  });
+
+  function clearXDates(){
+    $("td").removeClass("fc-xdate");
+  }
+
+  function showDayEntries(entries){
     $main.ajaxStop(function(){
       $.facebox(dayContent);
+      $(".popup").addClass("markdown-body");
     });
     getContentOfEntries(entries);
   }
@@ -62,7 +79,7 @@ $(document).ready(function() {
                             + '<div class="post-content">' + data + '</div>'
                           + '</div>';
             })
-            entry_calls.push(call);              
+            entry_calls.push(call);
           });
 
     $.when.apply($, entry_calls);
@@ -74,18 +91,18 @@ $(document).ready(function() {
   $addEntry.click(function(e){
     e.preventDefault();
     $.facebox({ ajax : $newEntry });
-  });  
+  });
 
   $previewButton.click(function(e){
     e.preventDefault();
     $preview.toggle("slide", {}, 500);
-  }).toggle( 
+  }).toggle(
     function(){
       $previewButton.text("Show Preview");
     },
     function(){
       $previewButton.text("Hide Preview");
-    });  
+    });
 
   $commitBtn.click(function(e){
     e.preventDefault();
@@ -93,6 +110,14 @@ $(document).ready(function() {
     gh.setCredentials($usernameField.val(), $passwordField.val());
     gh.commit(entry);
   });
+
+  $(document).bind('beforeReveal.facebox', function() {
+    $('#facebox .content').width('800px');
+  });
+
+  $($tabs).tabs();
+
+  $($about).load('src/about.html');
 });
 
 function buildDate(date){

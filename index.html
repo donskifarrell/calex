@@ -15,22 +15,26 @@ commitMessage: Added a new X entry!
 
   <!-- JQuery dependency. JQuery UI for slide effect. -->
   <script type='text/javascript' src='lib/jquery/jquery-1.7.2.min.js'></script>
-  <script type='text/javascript' src='lib/jquery/jquery-ui-1.8.20.custom.min.js'></script>
+  <script type='text/javascript' src='lib/jquery/jquery-ui-1.8.21.custom.min.js'></script>
+  <link rel='stylesheet' type='text/css' href='lib/jquery/jquery-ui-1.8.21.custom.css' />
 
   <!-- GitHub Web Commit dependency -->
   <script type='text/javascript' src='lib/github-webcommit/github-webcommit.js'></script>
 
   <!-- Facebox - provides overlay / same style as GitHub popups -->
-  <link rel='stylesheet' type='text/css' href='lib/facebox/facebox.css' />
+  <!--   <link rel='stylesheet' type='text/css' href='lib/facebox/facebox.css' /> -->
   <script type='text/javascript' src='lib/facebox/facebox.js'></script>
 
   <!-- Full calendar - draws and fills calendar -->
-  <link rel='stylesheet' type='text/css' href='lib/fullcalendar/fullcalendar.css' />
+<!--   <link rel='stylesheet' type='text/css' href='lib/fullcalendar/fullcalendar.css' /> -->
   <script type='text/javascript' src='lib/fullcalendar/fullcalendar.js'></script>
 
   <!-- Custom javascript and styles -->
-  <link rel='stylesheet' type='text/css' href='src/style/calex.css' />
+<!--   <link rel='stylesheet' type='text/css' href='src/style/calex.css' /> -->
+  <link rel='stylesheet' type='text/css' href='src/style/markdown.css' />
   <script type='text/javascript' src='src/javascript/multimap.js'></script>
+
+  <link rel='stylesheet' type='text/css' href='src/style/clean.css' />
   <script>
     // Need to put this here so the Jekyll engine will pick up the Liquid template tags.
     // I think yaml front matter at the start of the .js file will work but I don't like that style.
@@ -57,12 +61,52 @@ commitMessage: Added a new X entry!
 <body>
   <div id="main"> 
     <header>
-      <h1> Calendar X </h1>
+      <h1> Cale<i style="color:red;">X</i> </h1>
+      <p>Mark an X on the calendar for each day you accomplish your set goals. Don't break the chain!</p>
     </header>
-    <a id="addEntry" href="#newEntry" rel="facebox">View the 'info' div in the Facebox</a>
-    <div id="calendar"></div>
+    <div id="tabs">
+      <ul>
+        <li><a href="#calendar" class="ui-tabs-nav">Calendar</a></li>
+        <li><a href="#newEntry" class="ui-tabs-nav">Add new entry</a></li>
+        <li><a href="#about" class="ui-tabs-nav">About</a></li>
+      </ul>
+      <div id="calendar" class="ui-tabs-panel"></div>
+      <div id="newEntry" class="ui-tabs-panel">
+        <div id="newEntry">      
+          <ul id="navlist">
+            <li>
+              <div id="formArea">
+                <form>
+                  <input id="entryTitle" placeholder="Enter the title..." >
+                  <br />
+                  <textarea id="entryMarkdown" placeholder="Write your post..."></textarea>
+                  <br />
+                  <input id="username" name="username" value="{{ page.defaultUsername }}" >
+                  <input id="password" name="password" type="password" placeholder="Password...">
+                  <br />
+                  <input type="button" value="Preview" id="previewButton" />          
+                  <br />
+                  <div id="commitButton">Add new entry</div>
+                </form>
+              </div>    
+            </li>  
+            <li>
+              <div id="separator">
+              <div  style="border-left: 1px solid cyan; padding: 5px;"></div>
+              </div>  
+            </li>    
+            <li>
+              <div id="preview"  >
+              <textarea id="entryMarkdosdwn" placeholder="asdasdasd..."></textarea>
+            </div>  
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div id="about" class="ui-tabs-panel markdown-body"></div>
+    </div>
     <footer>
-      <p>Github link here?</p>
+      <p>Created by <a href="http://www.donalfarrell.com">donskifarrell</a> | <a href="https://github.com/donskifarrell/calex">View the code</a> | Hosted on <a href="https://github.com/">GitHub</a></p>
     </footer>
   </div>
 </body>
