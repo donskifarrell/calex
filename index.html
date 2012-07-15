@@ -22,12 +22,15 @@ commitMessage: Added a new X entry!
   <script type='text/javascript' src='lib/github-webcommit/github-webcommit.js'></script>
 
   <!-- Facebox - provides overlay / same style as GitHub popups -->
-  <!--   <link rel='stylesheet' type='text/css' href='lib/facebox/facebox.css' /> -->
+    <link rel='stylesheet' type='text/css' href='lib/facebox/facebox.css' />
   <script type='text/javascript' src='lib/facebox/facebox.js'></script>
 
   <!-- Full calendar - draws and fills calendar -->
 <!--   <link rel='stylesheet' type='text/css' href='lib/fullcalendar/fullcalendar.css' /> -->
   <script type='text/javascript' src='lib/fullcalendar/fullcalendar.js'></script>
+
+  <!-- Showdown.js - allows the preview of markdown text -->
+  <script type='text/javascript' src='lib/showdown/showdown.js'></script>
 
   <!-- Custom javascript and styles -->
 <!--   <link rel='stylesheet' type='text/css' href='src/style/calex.css' /> -->
@@ -71,37 +74,25 @@ commitMessage: Added a new X entry!
         <li><a href="#about" class="ui-tabs-nav">About</a></li>
       </ul>
       <div id="calendar" class="ui-tabs-panel"></div>
-      <div id="newEntry" class="ui-tabs-panel">
-        <div id="newEntry">      
-          <ul id="navlist">
-            <li>
-              <div id="formArea">
-                <form>
-                  <input id="entryTitle" placeholder="Enter the title..." >
-                  <br />
-                  <textarea id="entryMarkdown" placeholder="Write your post..."></textarea>
-                  <br />
-                  <input id="username" name="username" value="{{ page.defaultUsername }}" >
-                  <input id="password" name="password" type="password" placeholder="Password...">
-                  <br />
-                  <input type="button" value="Preview" id="previewButton" />          
-                  <br />
-                  <div id="commitButton">Add new entry</div>
-                </form>
-              </div>    
-            </li>  
-            <li>
-              <div id="separator">
-              <div  style="border-left: 1px solid cyan; padding: 5px;"></div>
-              </div>  
-            </li>    
-            <li>
-              <div id="preview"  >
-              <textarea id="entryMarkdosdwn" placeholder="asdasdasd..."></textarea>
-            </div>  
-            </li>
-          </ul>
-        </div>
+      <div id="newEntry" class="ui-tabs-panel">        
+        <div id="formArea">
+          <p>Enter the title and content of the entry.</p>
+          <p>Note: The preview may differ from how it is actually rendered as GitHub use a different version of the markdown library.</p>
+          <form>
+            <input id="entryTitle" placeholder="Enter the title..."/>      
+            <br />
+              <textarea id="entryMarkdown" placeholder="Write your post..."></textarea>
+            <br />
+            <input id="username" name="username" value="{{ page.defaultUsername }}" />
+            <input id="password" name="password" type="password" placeholder="Password..." />
+            <div id="commitButton">Add new entry</div>
+          </form>
+        </div>    
+
+        <div id="previewArea">
+          <div id="preview" class="markdown-body"></div>  
+        </div>  
+
       </div>
       <div id="about" class="ui-tabs-panel markdown-body"></div>
     </div>

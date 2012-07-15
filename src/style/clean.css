@@ -4,10 +4,6 @@
     src: url('../../fonts/Quicksand_Light_Oblique-webfont.woff');
 }
 
-body { 
-
-}
-
 tbody {	
 	text-align: center;
 }
@@ -19,12 +15,12 @@ header, footer {
 	text-align: center;
 }
 
-header h1, footer h1 { 	
+header h1, footer h1 {
     font-size: 58px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
-header h4, footer h4 { 	
-    margin-top: 0px;
+header h4, footer h4 {
+    margin-top: 0;
 }
 
 .fc-header-title{
@@ -32,17 +28,59 @@ header h4, footer h4 {
 }
 
 #tabs {
-	padding: 0px;
+	padding: 0;
 	width: 98%;
 	margin-left: auto;   margin-right: auto;
 }
+
 #tabs .ui-tabs-nav {
 	background: transparent;
-	border-width: 0px 0px 1px 0px;
-	-moz-border-radius: 0px;
-	-webkit-border-radius: 0px;
-	border-radius: 0px;
+	border-width: 0 0 1px 0;
+	-moz-border-radius: 0;
+	-webkit-border-radius: 0;
+	border-radius: 0;
 }
 #tabs .ui-tabs-panel {
-	margin: 0em 0.2em 0.2em 0.2em;
+	margin: 0 0.2em 0.2em 0.2em;
+}
+
+#newEntry {
+    overflow: auto;
+}
+
+#newEntry > * {
+    float: left;  
+    width: auto;     
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#newEntry > :first-child {
+    border-right: 0.2em solid #B7B7B7;
+}
+
+#entryTitle, #entryMarkdown {
+	width: 700px;
+}
+
+#entryMarkdown {
+	height: 400px;
+}
+
+#formArea {
+	width: 50%;
+}
+
+#formArea > * {
+	margin-left: 40px;
+}
+
+#previewArea {
+	margin-left: 40px;
+	width: 47%;
+}
+
+#entryMarkdownPreview {
+	width: 700px;
+	height: 430px;
 }

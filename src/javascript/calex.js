@@ -6,6 +6,8 @@ $(document).ready(function() {
   });
   builder = new EntryBuilder();
 
+  var converter = new Showdown.converter();
+
   var dayContent = '';
   var $calendar = $('#calendar');
   var $main = $('#main');
@@ -118,6 +120,12 @@ $(document).ready(function() {
   $($tabs).tabs();
 
   $($about).load('src/about.html');
+
+  $($entryMarkdown).on('keyup', function(){
+    var previewHtml = converter.makeHtml($entryMarkdown.val());
+    $($preview).html('').html(previewHtml);
+  });
+
 });
 
 function buildDate(date){
