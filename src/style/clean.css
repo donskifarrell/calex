@@ -62,7 +62,7 @@ header h4, footer h4 {
 }
 
 #entryTitle, #entryMarkdown {
-	width: 700px;
+	width: 90%;
 }
 
 #entryMarkdown {
