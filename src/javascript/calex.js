@@ -1,54 +1,42 @@
 $(document).ready(function() {
-  gh = new Github({
-    repositoryRoot : repository,
-    defaultCommitPath : commitPath,
-    defaultCommitMessage : commitMessage
+  var _main = $('#main');
+  var _tabs = $('#tabs');
+  var _calendar = CalendarTab($);
+  var _newEntry = AddEntryTab($);
+  var _about = $('#about');
+
+  $.facebox.settings.closeImage = 'lib/facebox/closelabel.png';
+  $.facebox.settings.loadingImage = 'lib/facebox/loading.gif';
+  $(document).bind('beforeReveal.facebox', function() {
+    $('#facebox .content').width('800px');
   });
-  builder = new EntryBuilder();
 
-  var converter = new Showdown.converter();
+  _tabs.tabs();
+  _calendar.init();
+  _newEntry.init();
+  _about.load('src/about.html');
+});
 
-  var $calendar = $('#calendar');
-  var $main = $('#main');
+var CalendarTab = function($) {
+  var _calendar = $('#calendar');
 
-  var $tabs = $('#tabs');
-  var $about = $('#about');
-  var $entryMarkdown = $('#entryMarkdown');
-  var $entryPreview = $('#entryPreview').hide();
-  var $previewButton = $('#previewButton');
-  var $preview = $('#preview');
-  var $entryTitle = $('#entryTitle');
-  var $commitBtn = $('#commitButton');
-  var $newEntry = "src/newEntry.html";
-  var $usernameField = $('#username');
-  var $passwordField = $('#password');
+  var requestHandler = {
+    _requestsInProgress: 0,
 
-  $calendar.fullCalendar({
-    header: {
-      left: 'prev,next today',
-      center: 'title',
-      right: ''
+    addCall: function() {
+      this._requestsInProgress++;
     },
-    height: 400,
-    width: 100,
-    editable: true,
-    dayRender: function(cell, date) {
-      var day = date.format("yyyy-mm-dd");
-      var entries = dayEntries[day];
-      if (entries !== undefined){
-        cell.addClass('fc-xdate');
-        cell.click(function() {
-          if (cell.hasClass('fc-xdate')){
-            renderEntries(entries);
-          }
-        });
-      } else {
-        cell.removeClass('fc-xdate');
+
+    removeCall: function(dayContent) {
+      this._requestsInProgress--;
+      if (this._requestsInProgress === 0) {
+        $.facebox(dayContent);
+        $(".popup").addClass("markdown-body");
       }
     }
-  });
+  };
 
-  function renderEntries(entries){
+  function renderEntries(entries) {
     var dayContent = '';
     $.each(
       entries,
@@ -71,71 +59,92 @@ $(document).ready(function() {
             requestHandler.removeCall(dayContent);
           }
         });
-
       });
   }
 
-  var requestHandler = {
-        _requestsInProgress: 0,
-
-        addCall: function() {
-            this._requestsInProgress++;
+  return {
+    init: function () {
+      _calendar.fullCalendar({
+        header: {
+          left: 'prev,next today',
+          center: 'title',
+          right: ''
         },
-
-        removeCall: function(dayContent) {
-            this._requestsInProgress--;
-            if (this._requestsInProgress === 0) {
-              $.facebox(dayContent);
-              $(".popup").addClass("markdown-body");
-            }
+        height: 400,
+        width: 100,
+        editable: true,
+        dayRender: function(cell, date) {
+          var day = date.format("yyyy-mm-dd");
+          var entries = dayEntries[day];
+          if (entries !== undefined){
+            cell.addClass('fc-xdate');
+            cell.click(function() {
+              if (cell.hasClass('fc-xdate')){
+                renderEntries(entries);
+              }
+            });
+          } else {
+            cell.removeClass('fc-xdate');
+          }
         }
-    };
+      });
+    }
+  };
+};
 
-  $.facebox.settings.closeImage = 'lib/facebox/closelabel.png';
-  $.facebox.settings.loadingImage = 'lib/facebox/loading.gif';
+var AddEntryTab = function($) {
+  var _converter = new Showdown.converter();
+  var _builder = EntryBuilder;
+  var _entryTitle = $('#entryTitle');
+  var _entryMarkdown = $('#entryMarkdown');
+  var _preview = $('#preview');
+  var _commitBtn = $('#commitButton');
+  var _usernameField = $('#username');
+  var _passwordField = $('#password');
 
-  $commitBtn.on('click', function(){
-    entry = builder.buildEntry($entryTitle.val(), $entryMarkdown.val());
-    gh.setCredentials($usernameField.val(), $passwordField.val());
-    gh.commit(entry);
+  var _gitHub = new Github({
+    repositoryRoot : repository,
+    defaultCommitPath : commitPath,
+    defaultCommitMessage : commitMessage
   });
 
-  $(document).bind('beforeReveal.facebox', function() {
-    $('#facebox .content').width('800px');
-  });
-
-  $($tabs).tabs();
-
-  $($about).load('src/about.html');
-
-  $($entryTitle).on('keyup', function() { createPreview(); });
-  $($entryMarkdown).on('keyup', function() { createPreview(); });
-
-  function createPreview(){
-    var previewHtml = converter.makeHtml('#' + $entryTitle.val() + '\n' + $entryMarkdown.val());
-    $($preview).html('').html(previewHtml);
-  }
-});
-
-function buildDate(date){
-  return date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay();
-}
-  
-var EntryBuilder = function() {
-  var date = new Date();
-  YAML_FRONT_MATTER = '---\n' +
-                      'title: %title\n' +
-                      '---\n\n';
-
-  this.buildEntry = function(title, data) {
-      filename = title.replace(/\s+/g, '-').toLowerCase();
-      yaml = YAML_FRONT_MATTER.replace('%title', title);
-      
-      entry = {
+  var EntryBuilder = function() {
+    var date = new Date();
+    var YAML_FRONT_MATTER = '---\n' +
+                            'title: %title\n' +
+                            '---\n\n';
+    this.buildEntry = function(title, data) {
+      var filename = title.replace(/\s+/g, '-').toLowerCase();
+      var yaml = YAML_FRONT_MATTER.replace('%title', title);
+      var entry = {
           filename: buildDate(new Date()) + '-' + filename + '.md',
           body: yaml + data
       };
-
       return entry;
+    };
+  };
+
+  function buildDate(date){
+    return date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay();
+  }
+
+  function createPreview(){
+    var previewHtml = _converter.makeHtml('#' + _entryTitle.val() + '\n' + _entryMarkdown.val());
+    _preview.html('').html(previewHtml);
+  }
+
+  return {
+    init: function () {
+      _entryTitle.on('keyup', function() { createPreview(); });
+      _entryMarkdown.on('keyup', function() { createPreview(); });
+
+      _commitBtn.on('click', function(){
+        var entry = _builder.buildEntry(_entryTitle.val(), _entryMarkdown.val());
+        _gitHub.setCredentials(_usernameField.val(), _passwordField.val());
+        _gitHub.commit(entry);
+      });
+    }
   };
 };
+
+
