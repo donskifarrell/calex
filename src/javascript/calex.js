@@ -94,7 +94,6 @@ var CalendarTab = function($) {
 
 var AddEntryTab = function($) {
   var _converter = new Showdown.converter();
-  var _builder = EntryBuilder;
   var _entryTitle = $('#entryTitle');
   var _entryMarkdown = $('#entryMarkdown');
   var _preview = $('#preview');
@@ -104,28 +103,22 @@ var AddEntryTab = function($) {
 
   var _gitHub = new Github({
     repositoryRoot : repository,
+    branchName : branch,
     defaultCommitPath : commitPath,
     defaultCommitMessage : commitMessage
   });
 
-  var EntryBuilder = function() {
-    var date = new Date();
+  function entryBuilder(title, data) {
     var YAML_FRONT_MATTER = '---\n' +
                             'title: %title\n' +
                             '---\n\n';
-    this.buildEntry = function(title, data) {
-      var filename = title.replace(/\s+/g, '-').toLowerCase();
-      var yaml = YAML_FRONT_MATTER.replace('%title', title);
-      var entry = {
-          filename: buildDate(new Date()) + '-' + filename + '.md',
-          body: yaml + data
-      };
-      return entry;
+    var filename = title.replace(/\s+/g, '-').toLowerCase();
+    var yaml = YAML_FRONT_MATTER.replace('%title', title);
+    var entry = {
+        filename: DateBuilder(new Date()) + '-' + filename + '.md',
+        body: yaml + data
     };
-  };
-
-  function buildDate(date){
-    return date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay();
+    return entry;
   }
 
   function createPreview(){
@@ -139,7 +132,7 @@ var AddEntryTab = function($) {
       _entryMarkdown.on('keyup', function() { createPreview(); });
 
       _commitBtn.on('click', function(){
-        var entry = _builder.buildEntry(_entryTitle.val(), _entryMarkdown.val());
+        var entry = entryBuilder(_entryTitle.val(), _entryMarkdown.val());
         _gitHub.setCredentials(_usernameField.val(), _passwordField.val());
         _gitHub.commit(entry);
       });
@@ -147,4 +140,14 @@ var AddEntryTab = function($) {
   };
 };
 
+var DateBuilder = function(date) {
+  // Awful stuff, but avoids the need to include a date formatting library
+  var month = date.getMonth() + 1;
+  fullMonth = month < 10 ? '0' + month : month;
+
+  var day = date.getDay() + 1;
+  fullDay = day < 10 ? '0' + day : day;
+
+  return date.getFullYear() + '-' + fullMonth + '-' + fullDay;
+};
 
