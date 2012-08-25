@@ -23,10 +23,58 @@ header h4, footer h4 {
     margin-top: 0;
 }
 .fc-xdate{
-    background-image: url(/images/arrows.png);
+    background-image: url(/images/tick.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 18%;
 }
 .fc-header-title{
 	text-align: left;
+}
+
+.fc-header-left{
+	margin-left: 10%;
+    margin-top: 15px;
+    position: absolute;
+}
+
+.fc-button-next {
+	margin-left: 10px;
+}
+
+.fc-button-today {
+	margin-left: 10px;
+}
+
+.fc-border-separate thead tr {
+	background-color: #D8D8D8;
+}
+
+table.fc-border-separate {
+	border-collapse: separate;
+}
+
+.fc-border-separate th,
+.fc-border-separate td {
+	border-width: 1px 0 0 1px;
+
+	border-style: solid;
+	border-color: #ddd;
+}
+	
+.fc-border-separate th.fc-last,
+.fc-border-separate td.fc-last {
+	border-right-width: 1px;
+}
+	
+.fc-border-separate tr.fc-last th,
+.fc-border-separate tr.fc-last td {
+	border-bottom-width: 1px;
+}
+	
+.fc-border-separate tbody tr.fc-first td,
+.fc-border-separate tbody tr.fc-first th {
+	border-top-width: 0;
 }
 
 #tabs {

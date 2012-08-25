@@ -15,6 +15,8 @@ $(document).ready(function() {
   _calendar.init();
   _newEntry.init();
   _about.load('src/about.html');
+
+  $('.fc-button').addClass('btn');
 });
 
 var CalendarTab = function($) {
@@ -108,6 +110,10 @@ var AddEntryTab = function($) {
     defaultCommitMessage : commitMessage
   });
 
+  function getEntryTitle(){
+    return (_entryTitle.val().length > 0) ? '#' + _entryTitle.val() : '';
+  }
+
   function entryBuilder(title, data) {
     var YAML_FRONT_MATTER = '---\n' +
                             'title: %title\n' +
@@ -121,8 +127,8 @@ var AddEntryTab = function($) {
     return entry;
   }
 
-  function createPreview(){
-    var previewHtml = _converter.makeHtml('#' + _entryTitle.val() + '\n' + _entryMarkdown.val());
+  function createPreview(){   
+    var previewHtml = _converter.makeHtml(getEntryTitle() + '\n' + _entryMarkdown.val());
     _preview.html('').html(previewHtml);
   }
 
@@ -132,7 +138,7 @@ var AddEntryTab = function($) {
       _entryMarkdown.on('keyup', function() { createPreview(); });
 
       _commitBtn.on('click', function(){
-        var entry = entryBuilder(_entryTitle.val(), _entryMarkdown.val());
+        var entry = entryBuilder(getEntryTitle(), _entryMarkdown.val());
         _gitHub.setCredentials(_usernameField.val(), _passwordField.val());
         _gitHub.commit(entry);
       });

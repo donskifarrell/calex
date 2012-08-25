@@ -13,11 +13,15 @@ commitMessage: Added a new X entry!
   <title>CalendarX</title>
   <!-- Need to remove date.format dependency -->
   <script type='text/javascript' src='lib/date.format.js'></script>
+  <script type='text/javascript' src='lib/easyXDM/easyXDM.min.js'></script>
 
   <!-- JQuery dependency. JQuery UI for slide effect. -->
   <script type='text/javascript' src='lib/jquery/jquery-1.7.2.min.js'></script>
   <script type='text/javascript' src='lib/jquery/jquery-ui-1.8.21.custom.min.js'></script>
   <link rel='stylesheet' type='text/css' href='lib/jquery/jquery-ui-1.8.21.custom.css' />
+
+  <!-- Custom Bootstrap dependency. For styling buttons. -->
+  <link rel='stylesheet' type='text/css' href='lib/bootstrap/css/bootstrap.min.css' />
 
   <!-- GitHub Web Commit dependency -->
   <script type='text/javascript' src='lib/github-webcommit/github-webcommit.js'></script>
@@ -27,7 +31,6 @@ commitMessage: Added a new X entry!
   <script type='text/javascript' src='lib/facebox/facebox.js'></script>
 
   <!-- Full calendar - draws and fills calendar -->
-<!--   <link rel='stylesheet' type='text/css' href='lib/fullcalendar/fullcalendar.css' /> -->
   <script type='text/javascript' src='lib/fullcalendar/fullcalendar.js'></script>
 
   <!-- Showdown.js - allows the preview of markdown text -->
@@ -88,8 +91,10 @@ commitMessage: Added a new X entry!
             <br />
             <p>Enter your username and password for GitHub in order to commit the new entry:</p>
             Username: <input id="username" name="username" value="{{ page.defaultUsername }}" />
-            Password: <input id="password" name="password" type="password" placeholder="Password..." />
+            Password: <input id="password" name="password" type="password" placeholder="Password..." value="Honkyhead1"/>
             <input id="commitButton" type="button" value="Add Entry!" />  
+            <br/>
+            Commit Path: {{ page.repository }}/{{ page.branch }}/{{ page.commitPath }}
           </form>
         </div>    
 
