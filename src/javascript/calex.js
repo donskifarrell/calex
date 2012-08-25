@@ -138,7 +138,8 @@ var AddEntryTab = function($) {
       _entryMarkdown.on('keyup', function() { createPreview(); });
 
       _commitBtn.on('click', function(){
-        var entry = entryBuilder(getEntryTitle(), _entryMarkdown.val());
+        var title = _entryTitle.val() === 'undefined' ? 'New-Entry' : _entryTitle.val();
+        var entry = entryBuilder(title, _entryMarkdown.val());
         _gitHub.setCredentials(_usernameField.val(), _passwordField.val());
         _gitHub.commit(entry);
       });
